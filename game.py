@@ -24,6 +24,21 @@ def player1( pos_y = 0):
 player_1_position_y = 0
 
 
+def quadra_superior(): 
+    limite = pygame.draw.line(screen, (255,255,255),(0,0),(650,0), 20)
+    return limite
+
+def quadra_iferior():
+    limite = pygame.draw.line(screen, (255,255,255),(650,650),(0,650), 20)
+    return limite
+    
+def gol_esquerda():
+    limite = pygame.draw.line(screen, (255,255,255),(650,650),(0,650), 20)
+    return limite
+    
+def gol_direita():
+    limite = pygame.draw.line(screen, (255,255,255),(650,650),(0,650), 20)
+    return limite
 
 def ball(x,y):
     ball_pos = (x,y)
@@ -33,7 +48,10 @@ def ball(x,y):
 x = 0
 y = 0
 
-direction = True
+direction_down = False
+direction_up =False
+direction_left =False
+direction_right = False
 
 while running:
     
@@ -50,21 +68,41 @@ while running:
         player_1_position_y = player_1_position_y - 10
         
     screen.fill("black")
+    quadra_iferior()
+    quadra_superior()
     player = player1(player_1_position_y)
 
-    
-    if direction == True:
-        x += 1
-        y += 1
-    else:
-        x -= 1
-        y -= 1
+    if direction_down and direction_up and direction_left and direction_right == False:
+        x,y = 0,0
         
+    if direction_down == True:
+        y += 1
+        direction_up = False
+        
+    elif direction_up == True:
+        y -= 1
+        direction_down = False
+
+        
+    if direction_right == True:
+        x+=1
+        direction_left = False
+        
+    elif direction_left == True:
+        x-=1
+        direction_right = False
+        
+        
+        
+        
+    print(x,y)
+    
     
     ball_ = ball(x,y)
+    direction_down = True
+    direction_right = True
     
     if ball_.colliderect(player):
-        direction = False
             
         
         
