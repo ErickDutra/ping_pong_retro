@@ -40,13 +40,23 @@ def gol_direita():
     limite = pygame.draw.line(screen, (255,255,255),(650,650),(0,650), 20)
     return limite
 
-def ball(x,y):
-    ball_pos = (x,y)
-    ball = pygame.draw.circle(screen, (255,255,255), ball_pos, 10)
-    return ball
+class ball_object():
+    def __init__(self, x, y):
+        
+        self.position_x = int(x)
+        self.position_y = int(y)
+    
+    def ball_position(self):
+        x = self.position_x
+        y = self.position_y 
+        ball_pos = (x,y)
+        ball = pygame.draw.circle(screen, (255,255,255), ball_pos, 10)
+        return ball
+
 
 x = 0
 y = 0
+
 
 direction_down = False
 direction_up =False
@@ -68,9 +78,10 @@ while running:
         player_1_position_y = player_1_position_y - 10
         
     screen.fill("black")
-    quadra_iferior()
-    quadra_superior()
+    quadraInferior =  quadra_iferior()
+    quadraSuperior = quadra_superior()
     player = player1(player_1_position_y)
+
 
     if direction_down and direction_up and direction_left and direction_right == False:
         x,y = 0,0
@@ -92,23 +103,21 @@ while running:
         x-=1
         direction_right = False
         
-        
-        
-        
+            
     print(x,y)
+
+    # Ball Object 
+    ball = ball_object(x,y)
+    ball_ = ball.ball_position()
     
-    
-    ball_ = ball(x,y)
-    direction_down = True
-    direction_right = True
     
     if ball_.colliderect(player):
-            
-        
-        
-        x = player_1_position_y
+        direction_down = True   
         print("colidiu") 
  
+    if ball_.colliderect(quadraInferior):
+        direction_up = True
+    
  
     pygame.display.flip()
 
