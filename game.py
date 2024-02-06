@@ -40,28 +40,33 @@ def gol_direita():
     limite = pygame.draw.line(screen, (255,255,255),(650,650),(0,650), 20)
     return limite
 
-class ball_object():
-    def __init__(self, x, y):
+direction_down = False
+direction_up =  False
+direction_right =  False
+direction_left = False
+
+class Ball_object:
+    def __init__(self):
+        self.position_x = 0
+        self.position_y = 0
         
-        self.position_x = int(x)
-        self.position_y = int(y)
-    
-    def ball_position(self):
+    def create_ball(self):
         x = self.position_x
-        y = self.position_y 
+        y = self.position_y
         ball_pos = (x,y)
         ball = pygame.draw.circle(screen, (255,255,255), ball_pos, 10)
-        return ball
+        return ball  
+    
+    @classmethod
+    def move_ball(cls, x = 0 , y = 0):
+        move = cls()
+        move.position_y = y
+        move.position_x = x
+        return move
 
 
-x = 0
-y = 0
-
-
-direction_down = False
-direction_up =False
-direction_left =False
-direction_right = False
+x=0
+y=0
 
 while running:
     
@@ -81,11 +86,9 @@ while running:
     quadraInferior =  quadra_iferior()
     quadraSuperior = quadra_superior()
     player = player1(player_1_position_y)
-
-
+    
     if direction_down and direction_up and direction_left and direction_right == False:
         x,y = 0,0
-        
     if direction_down == True:
         y += 1
         direction_up = False
@@ -93,7 +96,6 @@ while running:
     elif direction_up == True:
         y -= 1
         direction_down = False
-
         
     if direction_right == True:
         x+=1
@@ -102,23 +104,11 @@ while running:
     elif direction_left == True:
         x-=1
         direction_right = False
-        
-            
-    print(x,y)
-
-    # Ball Object 
-    ball = ball_object(x,y)
-    ball_ = ball.ball_position()
     
     
-    if ball_.colliderect(player):
-        direction_down = True   
-        print("colidiu") 
- 
-    if ball_.colliderect(quadraInferior):
-        direction_up = True
-    
- 
+    direction_down = True
+    ball = Ball_object.move_ball(x,y)
+    ball.create_ball()
     pygame.display.flip()
 
     dt = clock.tick(60)
